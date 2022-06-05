@@ -10,6 +10,7 @@ module.exports = {
     clean: true,
     assetModuleFilename: "assets/images/[name].[ext]",
   },
+  devtool: "inline-source-map",
   plugins: [
     new HtmlWebpackPlugin({
       title: "Battleship",
@@ -30,6 +31,17 @@ module.exports = {
       {
         test: /\.html$/i,
         use: ["html-loader"],
+      },
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"],
+            plugins: [["@babel/transform-runtime"]],
+          },
+        },
       },
     ],
   },

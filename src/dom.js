@@ -1,7 +1,6 @@
-
 const dom = (() => {
   const init = () => {
-    console.log("hi");
+    cosnole.log("hi");
   };
   return { init };
 })();
