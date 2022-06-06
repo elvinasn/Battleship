@@ -1,5 +1,5 @@
 class Ship {
-  constructor(name, location) {
+  constructor(name, location = []) {
     this.name = name;
     this.location = location;
     this.hits = [];
