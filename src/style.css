@@ -1,5 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+body {
+  background-color: #0c0a3e;
+  color: #eee;
+  font-family: "Roboto", sans-serif;
+  min-height: 100vh;
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  max-width: 100vw;
+}
+header,
+footer {
+  height: 80px;
+  background-color: #383663;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  gap: 20px;
+  width: 100%;
+}
+.gameboard_container {
+  width: 600px;
+  height: 600px;
+}
+.gameboard_line {
+  width: 100%;
+  display: flex;
+  height: 10%;
+  border-collapse: collapse;
+}
+.gameboard_cell {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ship {
+  background: green;
+}
+.hit::after {
+  position: absolute;
+  content: "";
+  background-color: red;
+  width: 15px;
+  height: 15px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+footer {
+  margin-top: auto;
+}
+footer > a > img:hover {
+  filter: opacity(0.7);
 }

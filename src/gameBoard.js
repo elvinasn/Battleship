@@ -1,4 +1,5 @@
 /* eslint-disable no-plusplus */
+
 class Gameboard {
   constructor() {
     this.board = [];
@@ -24,7 +25,7 @@ class Gameboard {
     }
   }
 
-  isShipHit(coord) {
+  isShip(coord) {
     return this.ships.some((x) => x.location.includes(coord));
   }
 
@@ -36,9 +37,17 @@ class Gameboard {
     return this.ships.every((x) => x.isSunk());
   }
 
+  getShipsCoords() {
+    const arr = [];
+    for (let i = 0; i < 100; i++) {
+      if (this.isShip(i)) arr.push(i);
+    }
+    return arr;
+  }
+
   checkIfCollided(coord, axis, length) {
     let tempCoord = coord;
-    let arr = [];
+    const arr = [];
     for (let i = 0; i < length; i++) {
       arr.push(tempCoord);
       tempCoord += axis.toLowerCase() === "x" ? 1 : 10;

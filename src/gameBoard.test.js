@@ -41,16 +41,16 @@ describe("gameboard tests", () => {
     expect(gameBoard.board[2]).toBe(true);
   });
 
-  it("isShipHit returns false if the shot missed", () => {
+  it("isShip returns false if the shot missed", () => {
     gameBoard.receiveAttack(2);
-    expect(gameBoard.isShipHit(2)).toBe(false);
+    expect(gameBoard.isShip(2)).toBe(false);
   });
 
-  it("isShipHit returns true if the shot hit", () => {
+  it("isShip returns true if the shot hit", () => {
     const ship = new Ship("Carrier");
     gameBoard.placeShip(0, ship, "x", 3);
     gameBoard.receiveAttack(2);
-    expect(gameBoard.isShipHit(2)).toBe(true);
+    expect(gameBoard.isShip(2)).toBe(true);
   });
 
   it("isAllSunk returns false if at least one ship is not sunk", () => {
