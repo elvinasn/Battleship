@@ -1,30 +1,36 @@
 const markups = (() => {
   let counter = 0;
-  const getGameboard = (gameboard, toSeeShips) => {
+  const getGameboard = (gameboard, header, id, toSeeShips) => {
     let shipsArray = [];
     counter = 0;
     const gameBoardCells = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0, len = gameboard.board.length; i < len; i += 10) {
       gameBoardCells.push(gameboard.board.slice(i, i + 10));
     }
-    if (toSeeShips) shipsArray = gameboard.getShipsCoords();
-
-    return `<div class="gameboard_container">${gameBoardCells
-      .map((line) => gameboardLineMarkup(line, gameboard, shipsArray))
-      .join("")}</div>`;
+    shipsArray = gameboard.getShipsCoords();
+    return `<div class="wrapper"><h2>${header}</h2><div class="gameboard_container" id="${id}">${gameBoardCells
+      .map((line) => gameboardLineMarkup(line, shipsArray, toSeeShips))
+      .join("")}</div></div>`;
   };
-  const gameboardLineMarkup = (line, gameboard, shipsArray) =>
+  const gameboardLineMarkup = (line, shipsArray, toSeeShips) =>
     `<div class="gameboard_line">${line
       .map(
-        (cell) => `${gameboardCellMarkup(shipsArray.includes(counter), cell)}`
+        (cell) =>
+          `${gameboardCellMarkup(
+            shipsArray.includes(counter),
+            cell,
+            toSeeShips
+          )}`
       )
       .join("")}</div>`;
 
-  const gameboardCellMarkup = (ship, hit) => {
-    counter++;
-    return `<div class="gameboard_cell ${ship ? "ship" : ""} ${
+  const gameboardCellMarkup = (ship, hit, toSeeShips) => {
+    counter += 1;
+    return `<div class="gameboard_cell ${ship && toSeeShips ? "ship" : ""} ${
       hit ? "hit" : ""
-    }" data-index="${counter - 1}"></div>`;
+    } ${!toSeeShips && ship && hit ? "enemy-ship-hit" : ""}" data-index="${
+      counter - 1
+    }"></div>`;
   };
 
   return { getGameboard };

@@ -20,7 +20,7 @@ class Gameboard {
 
   receiveAttack(coord) {
     this.board[coord] = true;
-    if (this.isShipHit(coord)) {
+    if (this.isShip(coord)) {
       this.hitShip(coord);
     }
   }
