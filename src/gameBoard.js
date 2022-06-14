@@ -56,6 +56,22 @@ class Gameboard {
       this.ships.some((ship) => ship.location.includes(x))
     );
   }
+
+  checkIfMultipleLines(coordArray, axis) {
+    if (axis === "x") {
+      const res = Math.floor(coordArray[0] / 10);
+      return !(
+        coordArray.length ===
+        coordArray.filter((x) => Math.floor(x / 10) === res).length
+      );
+    }
+    if (axis === "y") {
+      const res = coordArray[0] % 10;
+      return !(
+        coordArray.length === coordArray.filter((x) => x % 10 === res).length
+      );
+    }
+  }
 }
 
 export default Gameboard;

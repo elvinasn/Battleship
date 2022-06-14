@@ -60,8 +60,11 @@ main {
   justify-content: center;
   align-items: center;
 }
-.ship {
+.ship, .placeship {
   background: green;
+}
+.colliding {
+  background: rgb(187, 59, 59);
 }
 .hit::after {
   position: absolute;
@@ -115,4 +118,8 @@ footer > a > img:hover {
   display: flex;
   flex-direction: column;
   gap: 30px;
+}
+
+.flex-y {
+  flex-direction: column;
 }

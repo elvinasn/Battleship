@@ -59,7 +59,7 @@ describe("gameboard tests", () => {
     gameBoard.receiveAttack(2);
     expect(gameBoard.isAllSunk()).toBe(false);
   });
-  it("isAllSunk returns true if all ships are sunk", () => {
+  test("isAllSunk returns true if all ships are sunk", () => {
     const ship = new Ship("Carrier");
     gameBoard.placeShip(0, ship, "x", 3);
     gameBoard.receiveAttack(0);
@@ -75,7 +75,24 @@ describe("gameboard tests", () => {
   });
   it("checkIfCollided returns true if new coord does collide with existing", () => {
     const ship = new Ship("Carrier");
-    gameBoard.placeShip(0, ship, "x", 3);
-    expect(gameBoard.checkIfCollided(0, "y", 2)).toBe(true);
+    gameBoard.placeShip(5, ship, "x", 3);
+    expect(gameBoard.checkIfCollided(4, "x", 2)).toBe(true);
+  });
+
+  it("CheckifMultipleLines returns true if it is in multiple lines on x axis", () => {
+    const array = [9, 10];
+    expect(gameBoard.checkIfMultipleLines(array, "x")).toBe(true);
+  });
+  it("CheckifMultipleLines returns false if it is not in multiple lines on x axis", () => {
+    const array = [1, 2];
+    expect(gameBoard.checkIfMultipleLines(array, "x")).toBe(false);
+  });
+  it("CheckifMultipleLines returns true if it is in multiple lines on y axis", () => {
+    const array = [9, 10];
+    expect(gameBoard.checkIfMultipleLines(array, "y")).toBe(true);
+  });
+  it("CheckifMultipleLines returns false if it is not in multiple lines on y axis", () => {
+    const array = [1, 11];
+    expect(gameBoard.checkIfMultipleLines(array, "y")).toBe(false);
   });
 });

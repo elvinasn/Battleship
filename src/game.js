@@ -4,17 +4,19 @@ import Ship from "./ship";
 const game = (() => {
   const player = new Player("Elvinas");
   const computer = new Player("AI");
+  const startingShips = [
+    { name: "Carrier", length: 5 },
+    { name: "Battleship", length: 4 },
+    { name: "Cruiser", length: 3 },
+    { name: "Submarine", length: 3 },
+    { name: "Destroyer", length: 2 },
+  ];
   const init = () => {
     player.gameBoard = new Gameboard();
     computer.gameBoard = new Gameboard();
-    player.gameBoard.placeShip(2, new Ship("Carrier"), "y", 5);
-    player.gameBoard.placeShip(15, new Ship("Battleship"), "x", 4);
-    player.gameBoard.placeShip(23, new Ship("Cruiser"), "x", 3);
-    player.gameBoard.placeShip(45, new Ship("Submarine"), "x", 3);
-    player.gameBoard.placeShip(65, new Ship("Destroyer"), "x", 2);
-
     computer.gameBoard.placeShip(65, new Ship("Destroyer"), "x", 2);
   };
-  return { init, player, computer };
+
+  return { init, player, computer, startingShips };
 })();
 export { game };
