@@ -87,6 +87,22 @@ const dom = (() => {
     main.appendChild(wrapper);
   };
 
+  const displayRandomOrCustom = () => {
+    main.innerHTML = "";
+    const btn1 = document.createElement("button");
+    btn1.textContent = "Random";
+    btn1.addEventListener("click", () => {
+      displayRandomShipPlacing(game.player);
+    });
+    const btn2 = document.createElement("button");
+    btn2.textContent = "Custom";
+    btn2.addEventListener("click", () => {
+      displayCustomShipPlacing(game.player, 0);
+    });
+    main.appendChild(btn1);
+    main.appendChild(btn2);
+  };
+
   const displayPlayerVSAIForm = () => {
     main.innerHTML = "";
     const form = document.createElement("form");
@@ -114,7 +130,7 @@ const dom = (() => {
     });
     btn.addEventListener("click", () => {
       game.player.name = input.value;
-      displayShipPlacing(game.player, 0);
+      displayRandomOrCustom();
     });
     form.appendChild(label);
     form.appendChild(input);
@@ -122,7 +138,38 @@ const dom = (() => {
     main.appendChild(form);
   };
 
-  const displayShipPlacing = (player, index) => {
+  const displayRandomShipPlacing = (player) => {
+    main.innerHTML = "";
+
+    const start = document.createElement("button");
+    start.textContent = "Start";
+    main.appendChild(start);
+    start.addEventListener("click", () => {
+      displayBoards();
+    });
+
+    const randomize = document.createElement("button");
+    randomize.textContent = "Randomize";
+    randomize.addEventListener("click", () => {
+      displayRandomShipPlacing(player);
+    });
+    main.appendChild(randomize);
+
+    game.putRandomShips(player);
+    main.classList.add("flex-y");
+    const ships = game.startingShips;
+    main.insertAdjacentHTML(
+      "beforeend",
+      markups.getGameboard(
+        player.gameBoard,
+        `${player.name} board`,
+        "PLAYER1",
+        true
+      )
+    );
+  };
+
+  const displayCustomShipPlacing = (player, index) => {
     main.innerHTML = "";
     main.classList.add("flex-y");
     const ships = game.startingShips;
@@ -185,11 +232,8 @@ const dom = (() => {
           hoverArray.push(i);
         }
         ableToPlace =
-          !player.gameBoard.checkIfCollided(
-            Number(e.target.dataset.index),
-            axis,
-            curr.length
-          ) && !player.gameBoard.checkIfMultipleLines(hoverArray, axis);
+          !player.gameBoard.checkIfCollided(hoverArray) &&
+          !player.gameBoard.checkIfMultipleLines(hoverArray, axis);
         className = ableToPlace ? "placeship" : "colliding";
 
         hoverArray.forEach((el) => {
@@ -219,7 +263,7 @@ const dom = (() => {
             axis,
             curr.length
           );
-          displayShipPlacing(player, index + 1);
+          displayCustomShipPlacing(player, index + 1);
         }
       });
     }
@@ -239,7 +283,7 @@ const dom = (() => {
     btn.textContent = "Play again";
     btn.addEventListener("click", () => {
       game.init(player, computer);
-      displayShipPlacing(game.player, 0);
+      displayRandomOrCustom();
       modalContainer.classList.remove("show-modal");
       modalContainer.innerHTML = "";
     });

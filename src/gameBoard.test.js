@@ -71,12 +71,12 @@ describe("gameboard tests", () => {
   it("checkIfCollided returns false if new coord does not collide with existing", () => {
     const ship = new Ship("Carrier");
     gameBoard.placeShip(0, ship, "x", 3);
-    expect(gameBoard.checkIfCollided(5, "y", 2)).toBe(false);
+    expect(gameBoard.checkIfCollided([5, 6, 7])).toBe(false);
   });
   it("checkIfCollided returns true if new coord does collide with existing", () => {
     const ship = new Ship("Carrier");
     gameBoard.placeShip(5, ship, "x", 3);
-    expect(gameBoard.checkIfCollided(4, "x", 2)).toBe(true);
+    expect(gameBoard.checkIfCollided([4, 5])).toBe(true);
   });
 
   it("CheckifMultipleLines returns true if it is in multiple lines on x axis", () => {

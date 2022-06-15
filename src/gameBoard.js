@@ -45,14 +45,8 @@ class Gameboard {
     return arr;
   }
 
-  checkIfCollided(coord, axis, length) {
-    let tempCoord = coord;
-    const arr = [];
-    for (let i = 0; i < length; i++) {
-      arr.push(tempCoord);
-      tempCoord += axis.toLowerCase() === "x" ? 1 : 10;
-    }
-    return arr.some((x) =>
+  checkIfCollided(coordArray) {
+    return coordArray.some((x) =>
       this.ships.some((ship) => ship.location.includes(x))
     );
   }
