@@ -42,6 +42,7 @@ const dom = (() => {
     );
     player1Board = document.getElementById("PLAYER1");
     player2Board = document.getElementById("PLAYER2");
+    player2Board.classList.add("cursor-pointer");
     player2Board.addEventListener("click", (e) => {
       if (
         !e.target.classList.contains("hit") &&
@@ -125,62 +126,77 @@ const dom = (() => {
     main.innerHTML = "";
     main.classList.add("flex-y");
     const ships = game.startingShips;
+    main.insertAdjacentHTML(
+      "beforeend",
+      markups.getGameboard(
+        player.gameBoard,
+        `${player.name} board`,
+        "PLAYER1",
+        true
+      )
+    );
     if (index >= game.startingShips.length) {
       const btn = document.createElement("button");
       btn.textContent = "Start";
+      main.prepend(btn);
       btn.addEventListener("click", () => {
         displayBoards();
       });
-      main.appendChild(btn);
-      main.insertAdjacentHTML(
-        "beforeend",
-        markups.getGameboard(
-          player.gameBoard,
-          `${player.name} board`,
-          "PLAYER1",
-          true
-        )
-      );
+
+      const gameboard = document.querySelector(".gameboard_container");
+      gameboard.classList.remove("cursor-pointer");
     } else {
       let hoverArray = [];
       let className;
       let ableToPlace;
-      console.log(index);
+      let axis;
       let curr = ships[index];
       const infoText = document.createElement("p");
       infoText.textContent = `Place your ${curr.name}`;
-      main.appendChild(infoText);
-      main.insertAdjacentHTML(
-        "beforeend",
-        markups.getGameboard(
-          player.gameBoard,
-          `${player.name} board`,
-          "PLAYER1",
-          true
-        )
-      );
+      main.prepend(infoText);
+
+      const label = document.createElement("label");
+      label.classList.add("toggle");
+
+      const input = document.createElement("input");
+      input.setAttribute("type", "checkbox");
+
+      const span = document.createElement("span");
+      span.classList.add("labels");
+      span.setAttribute("data-on", "Y");
+      span.setAttribute("data-off", "X");
+
+      label.appendChild(input);
+      label.appendChild(span);
+
       const gameboard = document.querySelector(".gameboard_container");
+      main.insertBefore(label, gameboard.parentElement);
+      gameboard.classList.add("cursor-pointer");
       gameboard.addEventListener("mouseover", (e) => {
         hoverArray = [];
+        axis = input.checked ? "y" : "x";
         for (
-          let i = e.target.dataset.index;
-          i < Number(e.target.dataset.index) + curr.length;
-          i++
+          let i = Number(e.target.dataset.index);
+          i <
+          Number(e.target.dataset.index) +
+            (input.checked ? curr.length * 10 : curr.length);
+          input.checked ? (i += 10) : i++
         ) {
           hoverArray.push(i);
         }
         ableToPlace =
           !player.gameBoard.checkIfCollided(
             Number(e.target.dataset.index),
-            "x",
+            axis,
             curr.length
-          ) && !player.gameBoard.checkIfMultipleLines(hoverArray, "x");
+          ) && !player.gameBoard.checkIfMultipleLines(hoverArray, axis);
         className = ableToPlace ? "placeship" : "colliding";
 
         hoverArray.forEach((el) => {
-          document
-            .querySelector(`[data-index='${el}']`)
-            .classList.add(className);
+          const query = document.querySelector(`[data-index='${el}']`);
+          if (query !== null) {
+            query.classList.add(className);
+          }
         });
       });
       let cells = document.querySelectorAll(".gameboard_cell");
@@ -188,18 +204,19 @@ const dom = (() => {
       cells.forEach((cell) =>
         cell.addEventListener("mouseleave", (e) => {
           hoverArray.forEach((el) => {
-            document
-              .querySelector(`[data-index='${el}']`)
-              .classList.remove(className);
+            const query = document.querySelector(`[data-index='${el}']`);
+            if (query !== null) {
+              query.classList.remove(className);
+            }
           });
         })
       );
       gameboard.addEventListener("click", (e) => {
-        if (ableToPlace) {
+        if (ableToPlace && e.target.classList.contains("gameboard_cell")) {
           player.gameBoard.placeShip(
             Number(e.target.dataset.index),
             new Ship(curr.name),
-            "x",
+            axis,
             curr.length
           );
           displayShipPlacing(player, index + 1);

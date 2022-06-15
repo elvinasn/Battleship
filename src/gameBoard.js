@@ -68,7 +68,8 @@ class Gameboard {
     if (axis === "y") {
       const res = coordArray[0] % 10;
       return !(
-        coordArray.length === coordArray.filter((x) => x % 10 === res).length
+        coordArray.length === coordArray.filter((x) => x % 10 === res).length &&
+        !coordArray.some((x) => x > 100)
       );
     }
   }
