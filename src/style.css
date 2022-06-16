@@ -29,10 +29,15 @@ footer {
 }
 main {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   justify-content: center;
   align-items: center;
   height: calc(100vh - 160px);
+  flex-direction: column;
+}
+.gameboards {
+  display: flex;
+  gap: 20px;
 }
 .wrapper {
   display: flex;
@@ -42,8 +47,8 @@ main {
   font-size: 20px;
 }
 .gameboard_container {
-  width: 600px;
-  height: 600px;
+  width: 550px;
+  height: 550px;
 }
 .gameboard_line {
   width: 100%;
@@ -113,6 +118,11 @@ footer > a > img:hover {
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   z-index: 1;
 }
 .gamemodes__wrapper {
@@ -120,15 +130,78 @@ footer > a > img:hover {
   flex-direction: column;
   gap: 30px;
 }
-
-.flex-y {
-  flex-direction: column;
+.gamemodes__wrapper > p,
+.para {
+  font-size: 2.5rem;
+  font-weight: 700;
 }
 
+.gamemodes__wrapper > button {
+  padding: 20px;
+  font-weight: 700;
+  font-size: 2rem;
+}
+button:hover:not(:disabled) {
+  opacity: 0.8;
+}
+button {
+  border: none;
+  color: #eee;
+  background-color: #383663;
+  cursor: pointer;
+  border: 1px solid #eee;
+  transition: 0.3s ease;
+  border-radius: 15px;
+}
+button:disabled {
+  cursor: not-allowed;
+  background-color: gray;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+form > label {
+  font-size: 2rem;
+  font-weight: 700;
+}
+form > input {
+  font-size: 2rem;
+}
+form > button {
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
 .cursor-pointer {
   cursor: pointer;
 }
 
+.main-btn {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 10px 20px;
+  min-width: 200px;
+}
+
+.infoText__wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.infoText__wrapper > p {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.buttons__wrapper {
+  display: flex;
+  gap: 10px;
+}
 .toggle {
   --width: 80px;
   --height: calc(var(--width) / 3);
@@ -136,7 +209,7 @@ footer > a > img:hover {
   position: relative;
   display: inline-block;
   width: var(--width);
-  height: var(--height);
+  height: 30px;
   color: white;
   background-color: #383663;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
@@ -191,4 +264,9 @@ footer > a > img:hover {
 
 .toggle input:checked ~ .labels::before {
   transform: translateX(var(--width));
+}
+.modal__header {
+  color: #0c0a3e;
+  font-size: 2rem;
+  font-weight: 700;
 }

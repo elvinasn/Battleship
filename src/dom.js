@@ -9,7 +9,8 @@ const dom = (() => {
   const main = document.querySelector("main");
   const modalContainer = document.querySelector("#modal-container");
   const goToMain = document.createElement("button");
-  goToMain.textContent = "Go back to main screen";
+  goToMain.classList.add("main-btn");
+  goToMain.textContent = "GO TO MAIN SCREEN";
   goToMain.addEventListener("click", () => {
     init();
   });
@@ -22,9 +23,11 @@ const dom = (() => {
   };
   const displayBoards = () => {
     main.innerHTML = "";
-    main.classList.remove("flex-y");
+
     main.appendChild(goToMain);
-    main.insertAdjacentHTML(
+    const gameboards = document.createElement("div");
+    gameboards.classList.add("gameboards");
+    gameboards.insertAdjacentHTML(
       "afterbegin",
       markups.getGameboard(
         game.player.gameBoard,
@@ -33,7 +36,7 @@ const dom = (() => {
         true
       )
     );
-    main.insertAdjacentHTML(
+    gameboards.insertAdjacentHTML(
       "beforeEnd",
       markups.getGameboard(
         game.computer.gameBoard,
@@ -42,6 +45,7 @@ const dom = (() => {
         false
       )
     );
+    main.appendChild(gameboards);
     player1Board = document.getElementById("PLAYER1");
     player2Board = document.getElementById("PLAYER2");
     player2Board.classList.add("cursor-pointer");
@@ -54,6 +58,7 @@ const dom = (() => {
         displayBoards();
         if (game.computer.gameBoard.isAllSunk()) {
           gameEndModal();
+          return;
         }
 
         let attack = AI.Attack(game.player);
@@ -76,6 +81,9 @@ const dom = (() => {
 
     const btn1 = document.createElement("button");
     btn1.textContent = "PLAYER VS AI";
+    btn1.classList.add("btn");
+    btn1.classList.add("btn-primary");
+
     wrapper.appendChild(btn1);
     btn1.addEventListener("click", () => {
       displayPlayerVSAIForm();
@@ -92,15 +100,21 @@ const dom = (() => {
     main.appendChild(goToMain);
 
     const btn1 = document.createElement("button");
-    btn1.textContent = "Random";
+    const para = document.createElement("p");
+    para.classList.add("para");
+    para.textContent = "HOW DO YOU WANT TO PLACE SHIPS?";
+    btn1.textContent = "RANDOM";
+    btn1.classList.add("main-btn");
     btn1.addEventListener("click", () => {
       displayRandomShipPlacing(game.player);
     });
     const btn2 = document.createElement("button");
-    btn2.textContent = "Custom";
+    btn2.textContent = "CUSTOM";
+    btn2.classList.add("main-btn");
     btn2.addEventListener("click", () => {
       displayCustomShipPlacing(game.player, 0);
     });
+    main.appendChild(para);
     main.appendChild(btn1);
     main.appendChild(btn2);
   };
@@ -108,11 +122,13 @@ const dom = (() => {
   const displayPlayerVSAIForm = () => {
     main.innerHTML = "";
     main.appendChild(goToMain);
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("form__wrapper");
 
     const form = document.createElement("form");
 
     const label = document.createElement("label");
-    label.textContent = "Enter your name: ";
+    label.textContent = "ENTER YOUR NAME:";
     label.setAttribute("for", "name");
 
     const input = document.createElement("input");
@@ -121,7 +137,7 @@ const dom = (() => {
     input.id = "name";
 
     const btn = document.createElement("button");
-    btn.textContent = "Start";
+    btn.textContent = "START";
     if (input.value === "") {
       btn.disabled = true;
     }
@@ -139,29 +155,35 @@ const dom = (() => {
     form.appendChild(label);
     form.appendChild(input);
     form.appendChild(btn);
-    main.appendChild(form);
+    wrapper.appendChild(form);
+    main.appendChild(wrapper);
   };
 
   const displayRandomShipPlacing = (player) => {
     main.innerHTML = "";
     main.appendChild(goToMain);
 
+    const div = document.createElement("div");
+    div.classList.add("buttons__wrapper");
+
     const start = document.createElement("button");
-    start.textContent = "Start";
-    main.appendChild(start);
+    start.textContent = "START";
+    start.classList.add("main-btn");
+    div.appendChild(start);
     start.addEventListener("click", () => {
       displayBoards();
     });
 
     const randomize = document.createElement("button");
-    randomize.textContent = "Randomize";
+    randomize.textContent = "RANDOMIZE";
+    randomize.classList.add("main-btn");
     randomize.addEventListener("click", () => {
       displayRandomShipPlacing(player);
     });
-    main.appendChild(randomize);
+    div.appendChild(randomize);
+    main.appendChild(div);
 
     game.putRandomShips(player);
-    main.classList.add("flex-y");
     const ships = game.startingShips;
     main.insertAdjacentHTML(
       "beforeend",
@@ -178,7 +200,6 @@ const dom = (() => {
     main.innerHTML = "";
     main.appendChild(goToMain);
 
-    main.classList.add("flex-y");
     const ships = game.startingShips;
     main.insertAdjacentHTML(
       "beforeend",
@@ -189,15 +210,17 @@ const dom = (() => {
         true
       )
     );
+    const gameboard = document.querySelector(".gameboard_container");
+
     if (index >= game.startingShips.length) {
       const btn = document.createElement("button");
-      btn.textContent = "Start";
-      main.prepend(btn);
+      btn.classList.add("main-btn");
+      btn.textContent = "START";
+      main.insertBefore(btn, gameboard.parentElement);
       btn.addEventListener("click", () => {
         displayBoards();
       });
 
-      const gameboard = document.querySelector(".gameboard_container");
       gameboard.classList.remove("cursor-pointer");
     } else {
       let hoverArray = [];
@@ -207,7 +230,9 @@ const dom = (() => {
       let curr = ships[index];
       const infoText = document.createElement("p");
       infoText.textContent = `Place your ${curr.name}`;
-      main.prepend(infoText);
+      const div = document.createElement("div");
+      div.classList.add("infoText__wrapper");
+      div.appendChild(infoText);
 
       const label = document.createElement("label");
       label.classList.add("toggle");
@@ -222,9 +247,8 @@ const dom = (() => {
 
       label.appendChild(input);
       label.appendChild(span);
-
-      const gameboard = document.querySelector(".gameboard_container");
-      main.insertBefore(label, gameboard.parentElement);
+      div.appendChild(label);
+      main.insertBefore(div, gameboard.parentElement);
       gameboard.classList.add("cursor-pointer");
       gameboard.addEventListener("mouseover", (e) => {
         hoverArray = [];
@@ -280,6 +304,7 @@ const dom = (() => {
     const modal = document.createElement("div");
     modal.classList.add("modal");
     const header = document.createElement("p");
+    header.classList.add("modal__header");
     header.textContent = `${
       game.computer.gameBoard.isAllSunk()
         ? game.player.name
@@ -287,7 +312,8 @@ const dom = (() => {
     } has won!`;
     modal.appendChild(header);
     const btn = document.createElement("button");
-    btn.textContent = "Play again";
+    btn.textContent = "PLAY AGAIN";
+    btn.classList.add("main-btn");
     btn.addEventListener("click", () => {
       game.init(player, computer);
       displayRandomOrCustom();
@@ -295,7 +321,6 @@ const dom = (() => {
       modalContainer.innerHTML = "";
     });
     modal.appendChild(btn);
-    modal.appendChild(goToMain);
     modalContainer.appendChild(modal);
   };
 
