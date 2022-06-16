@@ -1,27 +1,29 @@
 import { game } from "./game";
 import { markups } from "./markups";
 import Player from "./player";
-import { helpers } from "./helpers";
+import { AI } from "./ai";
 import Ship from "./ship";
 const dom = (() => {
   const player = new Player("Elvinas");
   const computer = new Player("AI");
   const main = document.querySelector("main");
   const modalContainer = document.querySelector("#modal-container");
+  const goToMain = document.createElement("button");
+  goToMain.textContent = "Go back to main screen";
+  goToMain.addEventListener("click", () => {
+    init();
+  });
   let player1Board;
-  let guessesArray = [];
   let player2Board;
 
   const init = () => {
-    for (let i = 0; i < 100; i++) {
-      guessesArray.push(i);
-    }
     game.init(player, computer);
     displayGameModes();
   };
   const displayBoards = () => {
     main.innerHTML = "";
     main.classList.remove("flex-y");
+    main.appendChild(goToMain);
     main.insertAdjacentHTML(
       "afterbegin",
       markups.getGameboard(
@@ -54,10 +56,8 @@ const dom = (() => {
           gameEndModal();
         }
 
-        let random = helpers.randomGuess(guessesArray);
-        guessesArray = guessesArray.filter((x) => x !== random);
-        game.player.gameBoard.receiveAttack(random);
-
+        let attack = AI.Attack(game.player);
+        game.player.gameBoard.receiveAttack(attack);
         if (game.player.gameBoard.isAllSunk()) {
           gameEndModal();
         }
@@ -89,6 +89,8 @@ const dom = (() => {
 
   const displayRandomOrCustom = () => {
     main.innerHTML = "";
+    main.appendChild(goToMain);
+
     const btn1 = document.createElement("button");
     btn1.textContent = "Random";
     btn1.addEventListener("click", () => {
@@ -105,6 +107,8 @@ const dom = (() => {
 
   const displayPlayerVSAIForm = () => {
     main.innerHTML = "";
+    main.appendChild(goToMain);
+
     const form = document.createElement("form");
 
     const label = document.createElement("label");
@@ -140,6 +144,7 @@ const dom = (() => {
 
   const displayRandomShipPlacing = (player) => {
     main.innerHTML = "";
+    main.appendChild(goToMain);
 
     const start = document.createElement("button");
     start.textContent = "Start";
@@ -171,6 +176,8 @@ const dom = (() => {
 
   const displayCustomShipPlacing = (player, index) => {
     main.innerHTML = "";
+    main.appendChild(goToMain);
+
     main.classList.add("flex-y");
     const ships = game.startingShips;
     main.insertAdjacentHTML(
@@ -288,6 +295,7 @@ const dom = (() => {
       modalContainer.innerHTML = "";
     });
     modal.appendChild(btn);
+    modal.appendChild(goToMain);
     modalContainer.appendChild(modal);
   };
 
