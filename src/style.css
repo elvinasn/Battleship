@@ -32,8 +32,10 @@ main {
   gap: 10px;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 160px);
+  min-height: calc(100vh - 160px);
   flex-direction: column;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 .gameboards {
   display: flex;
@@ -109,7 +111,9 @@ footer > a > img:hover {
   opacity: 1;
   pointer-events: auto;
 }
-
+.para {
+  text-align: center;
+}
 .modal {
   background-color: #fff;
   width: 600px;
@@ -269,4 +273,48 @@ form > button {
   color: #0c0a3e;
   font-size: 2rem;
   font-weight: 700;
+}
+@media all and (max-width: 1200px) {
+  .gameboards {
+    flex-direction: column;
+  }
+}
+@media all and (max-width: 800px) {
+  h1,
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  header,
+  footer {
+    height: 50px;
+  }
+  main {
+    padding-top: 20px;
+    min-height: calc(100vh - 100px);
+  }
+}
+@media all and (max-width: 580px) {
+  .gamemodes__wrapper > p {
+    font-size: 2rem;
+  }
+  .gamemodes__wrapper > button,
+  .modal__header,
+  form > input,
+  .gamemodes__wrapper > button,
+  form > label,
+  .para {
+    font-size: 1.5rem;
+  }
+  .main-btn,
+  .infoText__wrapper > p {
+    font-size: 1rem;
+  }
+  .main-btn {
+    min-width: 150px;
+  }
+  .gameboard_container {
+    width: 90vw;
+    height: 90vw;
+  }
 }
